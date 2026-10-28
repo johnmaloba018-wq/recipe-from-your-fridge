@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Recipe From Your Fridge</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EAF2EF;--panel:#FFFFFF;--ink:#12332E;--mute:#4F6B65;--line:#C9DAD5;--accent:#FFD54A;--accent-ink:#3A2E00;--ok:#1F7A5A;--miss:#B4532A;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1F1C;--panel:#162B27;--ink:#E6F1EE;--mute:#9DB8B1;--line:#2A4640;--ok:#5FD3A6;--miss:#F0A27A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F1F1C;--panel:#162B27;--ink:#E6F1EE;--mute:#9DB8B1;--line:#2A4640;--ok:#5FD3A6;--miss:#F0A27A;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 Figtree,system-ui,sans-serif}
+main{max-width:920px;margin:0 auto;padding:0 20px 64px}
+h1,h2,h3{font-family:"Bricolage Grotesque",Figtree,system-ui,sans-serif;margin:0;line-height:1.05}
+.brand{padding:22px 0 0;font:800 18px "Bricolage Grotesque",sans-serif}
+.hero{padding:44px 0 28px}
+h1{font-size:clamp(2.6rem,9vw,5.4rem);font-weight:800;letter-spacing:-.03em;max-width:12ch}
+.lede{color:var(--mute);max-width:46ch;margin:16px 0 28px}
+.door{background:var(--panel);border:2px solid var(--ink);border-radius:28px;padding:18px;display:flex;flex-direction:column;gap:14px;position:relative}
+.door::after{content:"";position:absolute;right:-2px;top:26px;width:8px;height:56px;background:var(--ink);border-radius:0 8px 8px 0;transform:translateX(100%);display:none}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+#in{flex:1 1 220px;min-width:0;font:600 18px Figtree,sans-serif;padding:14px 16px;border:2px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink)}
+#in:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btn{font:600 17px Figtree,sans-serif;padding:14px 22px;border-radius:14px;border:2px solid var(--ink);background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.btn:active{transform:translateY(1px)}
+.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.magnets{display:flex;gap:10px;flex-wrap:wrap;min-height:44px;align-items:center}
+.magnet{display:inline-flex;gap:8px;align-items:center;padding:8px 8px 8px 14px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:600;border:2px solid var(--ink);animation:snap .18s ease-out}
+.magnet:nth-child(3n+1){transform:rotate(-2deg)}.magnet:nth-child(3n+2){transform:rotate(1.5deg)}
+.magnet button{all:unset;cursor:pointer;width:24px;height:24px;border-radius:50%;text-align:center;line-height:24px;background:rgba(0,0,0,.12)}
+.magnet button:focus-visible{outline:3px solid var(--ink)}
+@keyframes snap{from{transform:scale(.7)}to{transform:scale(1)}}
+.hint{color:var(--mute);font-size:15px;margin:0}
+.quick{display:flex;gap:8px;flex-wrap:wrap}
+.quick button{font:600 15px Figtree,sans-serif;padding:6px 12px;border-radius:999px;border:1.5px dashed var(--mute);background:transparent;color:var(--ink);cursor:pointer}
+.quick button:hover{border-style:solid}
+h2{font-size:1.7rem;margin:40px 0 4px;letter-spacing:-.02em}
+.sub{color:var(--mute);margin:0 0 14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+details{background:var(--panel);border:1.5px solid var(--line);border-radius:16px;padding:16px}
+details[open]{border-color:var(--ink)}
+summary{cursor:pointer;list-style:none}
+summary::-webkit-details-marker{display:none}
+h3{font-size:1.25rem;font-weight:800;margin-bottom:6px}
+.meta{color:var(--mute);font-size:14.5px}
+.bar{height:8px;border-radius:8px;background:var(--line);margin:10px 0 8px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok)}
+.have{color:var(--ok);font-weight:600;font-size:15px}
+.miss{color:var(--miss);font-weight:600;font-size:15px}
+.steps{margin:14px 0 0;padding-left:20px;border-top:1px solid var(--line);padding-top:12px}
+.steps li{margin-bottom:6px}
+.empty{border:2px dashed var(--line);border-radius:16px;padding:28px;color:var(--mute);margin-top:32px}
+footer{color:var(--mute);font-size:14px;margin-top:48px}
+@media (min-width:700px){.door::after{display:block}}
+@media (prefers-reduced-motion:reduce){.magnet{animation:none}}
+</style>
+</head>
+<body>
+<main>
+<div class="brand">Recipe From Your Fridge</div>
+<section class="hero">
+  <h1>What’s in your fridge?</h1>
+  <p class="lede">Type what you have. We’ll show meals you can make now, and ones that need just a little more.</p>
+  <div class="door">
+    <div class="row">
+      <input id="in" type="text" placeholder="Try: eggs, tomato, rice" aria-label="Add an ingredient" autocomplete="off" enterkeyhint="done">
+      <button class="btn" id="add" type="button">Add ingredient</button>
+    </div>
+    <p class="hint">Separate ingredients with commas, or press Enter after each one. Oil, salt, pepper and water are assumed.</p>
+    <div class="magnets" id="mag" aria-live="polite"></div>
+    <div class="quick" id="quick" aria-label="Common ingredients"></div>
+    <div class="row"><button class="btn ghost" id="clear" type="button">Clear all</button></div>
+  </div>
+</section>
+<div id="out"></div>
+<footer>Meal ideas come from a built-in set of home recipes. Quantities are up to you.</footer>
+</main>
+<script>
+(function(){
+var R=[
+["Egg fried rice",20,["rice","egg","soy sauce","onion","garlic"],"Fry chopped onion and garlic until soft.|Add cold rice and press it into the pan until it crisps.|Push aside, scramble the eggs, then toss everything with soy sauce."],
+["Tomato pasta",25,["pasta","tomato","garlic","onion"],"Boil the pasta in salted water.|Cook onion and garlic, add chopped tomato and simmer 10 minutes.|Toss the pasta through the sauce."],
+["Cheese omelette",10,["egg","cheese","onion"],"Soften diced onion in a pan.|Pour in beaten eggs and cook gently.|Add cheese, fold, and serve."],
+["Chicken stir-fry",25,["chicken","bell pepper","onion","soy sauce","garlic","rice"],"Cook the rice.|Brown sliced chicken, then add onion, pepper and garlic.|Finish with soy sauce and serve over rice."],
+["Tomato and spinach scramble",12,["egg","tomato","spinach","onion"],"Fry onion and tomato until jammy.|Stir in spinach until wilted.|Add beaten eggs and scramble softly."],
+["Grilled cheese",10,["bread","cheese","butter"],"Butter the outside of two slices.|Fill with cheese.|Toast in a pan until golden on both sides."],
+["Potato and egg hash",30,["potato","onion","egg","bell pepper"],"Cube and fry the potato until crisp.|Add onion and pepper.|Make wells, crack in eggs, cover until set."],
+["Creamy garlic pasta",20,["pasta","garlic","milk","cheese"],"Boil the pasta.|Warm garlic in butter, add milk and cheese until smooth.|Toss with the pasta."],
+["Chickpea curry",35,["chickpea","tomato","onion","garlic","curry powder","rice"],"Cook onion and garlic, stir in curry powder.|Add tomato and chickpeas and simmer 15 minutes.|Serve over rice."],
+["Bean quesadillas",15,["tortilla","bean","cheese","onion"],"Mash the beans with fried onion.|Spread on a tortilla with cheese and fold.|Crisp in a dry pan on both sides."],
+["Tuna sandwich",8,["tuna","bread","mayo","onion"],"Mix tuna, mayo and finely diced onion.|Spread on bread and close."],
+["Lentil soup",40,["lentil","carrot","onion","garlic","tomato"],"Soften onion, carrot and garlic.|Add lentils, tomato and water.|Simmer 25 minutes until tender."],
+["Banana pancakes",20,["banana","egg","flour","milk"],"Mash the banana and whisk in egg, flour and milk.|Cook spoonfuls in a lightly oiled pan.|Flip when bubbles appear."],
+["Beef tacos",25,["ground beef","tortilla","tomato","onion","cheese"],"Brown the beef with onion.|Warm the tortillas.|Fill with beef, chopped tomato and cheese."],
+["Spinach garlic pasta",20,["pasta","spinach","garlic","cheese"],"Boil the pasta.|Sizzle garlic in oil, wilt in the spinach.|Toss with pasta and cheese."],
+["Roasted vegetable tray",45,["carrot","potato","onion","bell pepper"],"Chop everything to similar sizes.|Toss in oil and salt.|Roast at 200°C for 35 minutes."],
+["French toast",12,["bread","egg","milk"],"Whisk egg and milk.|Soak the bread briefly.|Fry until golden on both sides."],
+["Chicken and rice soup",40,["chicken","rice","carrot","onion"],"Simmer chicken, onion and carrot in water for 20 minutes.|Add rice and cook until tender.|Shred the chicken back into the pot."],
+["Shakshuka",30,["egg","tomato","onion","bell pepper","garlic"],"Cook onion, pepper and garlic.|Add chopped tomato and simmer until thick.|Crack in eggs and cover until set."],
+["Peanut noodles",15,["noodle","peanut butter","soy sauce","garlic"],"Boil the noodles.|Stir peanut butter, soy sauce, garlic and a splash of hot water into a sauce.|Toss together."],
+["Sukuma wiki with ugali",35,["kale","tomato","onion","maize flour"],"Stir maize flour into boiling water until stiff for ugali.|Fry onion and tomato, add shredded kale.|Cook 5 minutes and serve with the ugali."],
+["Githeri",45,["maize","bean","onion","tomato"],"Boil maize and beans until tender.|Fry onion and tomato into a sauce.|Stir the sauce through the maize and beans."],
+["Avocado toast with egg",10,["avocado","bread","egg","tomato"],"Toast the bread and mash avocado on top.|Add a fried or boiled egg.|Finish with sliced tomato."],
+["Yogurt fruit bowl",5,["yogurt","banana","oat"],"Spoon yogurt into a bowl.|Slice in the banana.|Top with oats."]
+];
+var ALIAS={"capsicum":"bell pepper","pepper":"bell pepper","sukuma":"kale","sukuma wiki":"kale","spring greens":"kale","mince":"ground beef","minced meat":"ground beef","beef":"ground beef","spaghetti":"pasta","penne":"pasta","macaroni":"pasta","cheddar":"cheese","mozzarella":"cheese","chicken breast":"chicken","corn":"maize","posho":"maize flour","cornmeal":"maize flour","ugali flour":"maize flour","tomatoe":"tomato","mayonnaise":"mayo","oats":"oat","egg":"egg","greek yogurt":"yogurt","yoghurt":"yogurt","soy":"soy sauce","curry":"curry powder","peanutbutter":"peanut butter"};
+var STAPLES=["oil","salt","water","black pepper","olive oil","pepper salt"];
+var QUICK=["egg","tomato","onion","rice","chicken","potato","cheese","pasta","bread","spinach","milk","garlic"];
+function norm(s){
+  s=s.toLowerCase().trim().replace(/\s+/g," ");
+  if(!s)return"";
+  if(ALIAS[s])return ALIAS[s];
+  if(/ies$/.test(s))s=s.replace(/ies$/,"y");
+  else if(/(oes)$/.test(s))s=s.replace(/es$/,"");
+  else if(/[^s]s$/.test(s)&&!/(hummus|asparagus|couscous)$/.test(s))s=s.slice(0,-1);
+  return ALIAS[s]||s;
+}
+var have=[];
+var $=function(id){return document.getElementById(id)};
+function addMany(txt){
+  txt.split(",").forEach(function(p){
+    var n=norm(p);
+    if(n&&STAPLES.indexOf(n)<0&&have.indexOf(n)<0)have.push(n);
+  });
+  render();
+}
+function renderMagnets(){
+  var m=$("mag");m.textContent="";
+  have.forEach(function(h){
+    var s=document.createElement("span");s.className="magnet";
+    s.appendChild(document.createTextNode(h));
+    var b=document.createElement("button");b.type="button";b.textContent="×";b.setAttribute("aria-label","Remove "+h);
+    b.onclick=function(){have=have.filter(function(x){return x!==h});render()};
+    s.appendChild(b);m.appendChild(s);
+  });
+}
+function renderQuick(){
+  var q=$("quick");q.textContent="";
+  QUICK.filter(function(x){return have.indexOf(x)<0}).forEach(function(x){
+    var b=document.createElement("button");b.type="button";b.textContent="+ "+x;
+    b.onclick=function(){addMany(x)};q.appendChild(b);
+  });
+}
+function card(r){
+  var d=document.createElement("details");
+  var s=document.createElement("summary");
+  var h=document.createElement("h3");h.textContent=r.name;
+  var m=document.createElement("div");m.className="meta";m.textContent=r.time+" min";
+  var bar=document.createElement("div");bar.className="bar";
+  var i=document.createElement("i");i.style.width=Math.round(r.score*100)+"%";bar.appendChild(i);
+  var hv=document.createElement("div");hv.className="have";
+  hv.textContent="You have: "+(r.got.join(", ")||"nothing yet");
+  s.appendChild(h);s.appendChild(m);s.appendChild(bar);s.appendChild(hv);
+  if(r.miss.length){var ms=document.createElement("div");ms.className="miss";ms.textContent="Need: "+r.miss.join(", ");s.appendChild(ms)}
+  d.appendChild(s);
+  var ol=document.createElement("ol");ol.className="steps";
+  r.steps.split("|").forEach(function(t){var li=document.createElement("li");li.textContent=t;ol.appendChild(li)});
+  d.appendChild(ol);return d;
+}
+function group(title,sub,list){
+  if(!list.length)return null;
+  var w=document.createElement("section");
+  var h=document.createElement("h2");h.textContent=title;
+  var p=document.createElement("p");p.className="sub";p.textContent=sub;
+  var g=document.createElement("div");g.className="grid";
+  list.forEach(function(r){g.appendChild(card(r))});
+  w.appendChild(h);w.appendChild(p);w.appendChild(g);return w;
+}
+function renderResults(){
+  var out=$("out");out.textContent="";
+  if(!have.length){
+    var e=document.createElement("div");e.className="empty";
+    e.textContent="Nothing added yet. Type an ingredient above, or tap one of the suggestions, to see meal ideas.";
+    out.appendChild(e);return;
+  }
+  var res=[];
+  R.forEach(function(r){
+    var ing=r[2].map(norm);
+    var got=ing.filter(function(x){return have.indexOf(x)>=0});
+    if(!got.length)return;
+    res.push({name:r[0],time:r[1],steps:r[3],got:got,miss:ing.filter(function(x){return have.indexOf(x)<0}),score:got.length/ing.length});
+  });
+  res.sort(function(a,b){return b.score-a.score||a.miss.length-b.miss.length||a.time-b.time});
+  if(!res.length){
+    var e2=document.createElement("div");e2.className="empty";
+    e2.textContent="No meals match those ingredients yet. Check the spelling, or add a staple like egg, rice, onion or tomato.";
+    out.appendChild(e2);return;
+  }
+  var ready=res.filter(function(r){return r.miss.length===0});
+  var near=res.filter(function(r){return r.miss.length>0&&r.miss.length<=2});
+  var far=res.filter(function(r){return r.miss.length>2});
+  [group("Cook now","You have everything for these.",ready),
+   group("Almost there","Just one or two things to pick up.",near),
+   group("Needs a shop","A good start, but you’ll need a few more ingredients.",far)]
+  .forEach(function(x){if(x)out.appendChild(x)});
+}
+function render(){renderMagnets();renderQuick();renderResults()}
+$("add").onclick=function(){addMany($("in").value);$("in").value="";$("in").focus()};
+$("in").addEventListener("keydown",function(e){
+  if(e.key==="Enter"||e.key===","){e.preventDefault();addMany($("in").value);$("in").value=""}
+});
+$("clear").onclick=function(){have=[];render()};
+render();
+})();
+</script>
+</body>
+</html>
